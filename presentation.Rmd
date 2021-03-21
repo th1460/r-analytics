@@ -1,0 +1,63 @@
+---
+output:
+  xaringan::moon_reader:
+    seal: false
+    lib_dir: libs
+    css: ["default", "rladies-fonts", "resources/css/progress.css", "resources/css/adds.css"]
+    nature:
+      ratio: "16:9"
+      highlightStyle: github
+      highlightLines: true
+      countIncrementalSlides: false
+      slideNumberFormat: |
+        <div class="progress-bar-container">
+          <div class="progress-bar" style="width: calc(%current% / %total% * 100%);">
+          </div>
+        </div>
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(message = FALSE, 
+                      warning = FALSE, 
+                      fig.retina = 3)
+
+```
+
+class: inverse, left, middle
+
+background-image: url(resources/images/cover.gif)
+background-size: cover
+
+# Title
+
+### Subtitle
+
+<img src="resources/images/logo-ibm.png" width="150px"/>
+
+.large[Thiago Pires | 31 Out 2019]
+
+---
+layout: true
+
+background-image: url(resources/images/logo-ibm.png)
+background-position: 97% 3%
+background-size: 7%
+
+---
+class: left middle
+background-color: #00b33c
+
+# Section
+
+.large[subtitle section]
+
+---
+# Slide title
+
+```{r}
+
+rnorm(10)
+
+```
+
