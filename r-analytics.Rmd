@@ -795,10 +795,16 @@ ibmcloud fn action create titanic titanic.zip --docker th1460/titanic --web true
 
 ### Request
 
+```{r}
+input <- list(Sex = "male", Pclass = "3rd")
+
+"https://us-south.functions.appdomain.cloud/api/v1/web/thiago.pires%40ibm.com_dev/default/titanic.json" %>% 
+  httr::POST(., body = input, encode = "json") %>% 
+  httr::content() %>% 
+  .[c("Sex", "Pclass", "fit")] %>% 
+  jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE)
 ```
-curl -H "Content-type: application/json" -d '{"Sex":"male", "Pclass": "3rd"}' \
-https://us-south.functions.appdomain.cloud/api/v1/web/thiago.pires%40ibm.com_dev/default/titanic.json
-```
+
 
 ---
 # References
