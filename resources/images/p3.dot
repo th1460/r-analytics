@@ -1,0 +1,46 @@
+digraph g {
+ 
+  imagepath="resources/images";
+  rankdir=LR;
+  
+  graph [splines=ortho, dpi=150]
+  node [shape=box, color=none, fontsize=22]
+  edge [color="#fca103"];
+  p3 [label="3 | Data \n Preparation", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p3 -> p31 -> p32;
+  
+  subgraph cluster_p31 {
+    
+    color=white;
+    p31 [image="p31.png", imagescale=true, label=""];
+    p31_steps [label=<
+    Final dataset selection<br ALIGN = 'CENTER'/> 
+    &#8227; Total size<br ALIGN = 'CENTER'/> 
+    &#8227; Included and excluded columns<br ALIGN = 'CENTER'/>
+    &#8227; Record selection<br ALIGN = 'CENTER'/>
+    &#8227; Data type<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p31; p31_steps;
+    
+  }
+  
+  subgraph cluster_p32 {
+    
+    color=white;
+    p32 [image="p32.png", imagescale=true, label=""];
+    p32_steps [label=<
+    Data preparation<br ALIGN = 'CENTER'/> 
+    &#8227; Cleaning<br ALIGN = 'CENTER'/> 
+    &#8227; Transforming<br ALIGN = 'CENTER'/>
+    &#8227; Merging<br ALIGN = 'CENTER'/>
+    &#8227; Formatting<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p32; p32_steps;
+    
+  }
+
+}

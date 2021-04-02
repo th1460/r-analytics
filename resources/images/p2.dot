@@ -1,0 +1,64 @@
+digraph g {
+ 
+  imagepath="resources/images";
+  rankdir=LR;
+  
+  graph [splines=ortho, dpi=150]
+  node [shape=box, color=none, fontsize=22]
+  edge [color="#fca103"];
+  p1 [label="1 | Business \n Understading", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p2 [label="2 | Data \n Understading", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p2 -> p21 -> p22 -> p23 -> p1;
+  
+  subgraph cluster_p21 {
+    
+    color=white;
+    p21 [image="p21.png", imagescale=true, label=""];
+    p21_steps [label=<
+    Data collection<br ALIGN = 'CENTER'/> 
+    &#8227; Detail various sources to extract data<br ALIGN = 'CENTER'/> 
+    &#8227; Analyse data for aditional requirements<br ALIGN = 'CENTER'/>
+    &#8227; Consider other data sources<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p21; p21_steps;
+    
+  }
+  
+  subgraph cluster_p22 {
+    
+    color=white;
+    p22 [image="p22.png", imagescale=true, label=""];
+    p22_steps [label=<
+    Data properties<br ALIGN = 'CENTER'/> 
+    &#8227; Describe the data<br ALIGN = 'CENTER'/> 
+    &#8227; Find key features and relationships in the data<br ALIGN = 'CENTER'/>
+    &#8227; Use tools and tech to explore the data properties<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p22; p22_steps;
+    
+  }
+  
+  subgraph cluster_p23 {
+    
+    color=white;
+    p23 [image="p23.png", imagescale=true, label=""];
+    p23_steps [label=<
+    Quality<br ALIGN = 'CENTER'/> 
+    &#8227; Verifying attributes<br ALIGN = 'CENTER'/>
+    &#8227; Identifying missing data<br ALIGN = 'CENTER'/>
+    &#8227; Reveal inconsistencies<br ALIGN = 'CENTER'/>
+    &#8227; Report solutions<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p23; p23_steps;
+    
+  }
+
+
+}

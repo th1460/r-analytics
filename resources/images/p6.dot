@@ -1,0 +1,77 @@
+digraph g {
+ 
+  imagepath="resources/images";
+  rankdir=LR;
+  
+  graph [splines=ortho, dpi=120]
+  node [shape=box, color=none, fontsize=22]
+  edge [color="#fca103"];
+  p6 [label="6 | Deployment", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p61 [label="Planning \n deployment", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p6 -> p61 -> p62 -> p63 -> p64;
+  
+  subgraph cluster_p61 {
+    
+    color=white;
+    p61 [label="Planning \n deployment", 
+    shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+    p61_steps [label=<
+    Define runtime<br ALIGN = 'CENTER'/> 
+    >, fontsize=22];
+    p61_runtime [image="p61_runtime.png", imagescale=true, label=""];
+    
+    rank=same; p61; p61_steps; p61_runtime;
+    
+  }
+  
+  subgraph cluster_p62 {
+    
+    color=white;
+    p62 [label="Maintenance \n and monitoring", 
+    shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+    p62_steps [label=<
+    Management<br ALIGN = 'CENTER'/> 
+    >, fontsize=22];
+    p62_monitor [image="p62_monitor.png", imagescale=true, label=""];
+    
+    rank=same; p62; p62_steps; p62_monitor;
+    
+  }
+  
+  subgraph cluster_p63 {
+    
+    color=white;
+    p63 [image="p63.png", imagescale=true, label=""];
+    p63_steps [label=<
+    Final report<br ALIGN = 'CENTER'/> 
+    &#8227; Highlight processes used in the project<br ALIGN = 'CENTER'/>
+    &#8227; Analyse if all the goals for the project were met<br ALIGN = 'CENTER'/>
+    &#8227; Detail the findings of the project<br ALIGN = 'CENTER'/>
+    &#8227; Identify and explain the model used<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p63; p63_steps;
+    
+  }
+  
+  subgraph cluster_p64 {
+    
+    color=white;
+    p64 [image="p64.png", imagescale=true, label=""];
+    p64_steps [label=<
+    Project review<br ALIGN = 'CENTER'/> 
+    &#8227; Assess the outcomes of the project<br ALIGN = 'CENTER'/> 
+    &#8227; Summarise results: common pitfalls<br ALIGN = 'CENTER'/>
+    &#8227; Summarise results: choosing the right ML solution<br ALIGN = 'CENTER'/>
+    &#8227; Generalize the whole process to make it useful for the next generation<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p64; p64_steps;
+    
+  }
+
+}

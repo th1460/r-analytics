@@ -1,0 +1,6 @@
+#!/bin/bash
+
+# run R script
+chmod +x script.R # turn executable
+echo "$@" > input.json # set input
+./script.R # run script

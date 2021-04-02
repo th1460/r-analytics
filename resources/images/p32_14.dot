@@ -1,0 +1,73 @@
+digraph g {
+ 
+  imagepath="resources/images";
+  rankdir=LR;
+  
+  graph [splines=ortho, dpi=150]
+  node [shape=box, color=none, fontsize=22]
+  edge [color="#fca103"];
+  p32 [image="p32.png", imagescale=true, label=""];
+  
+  p32 -> p321 -> p322 -> p323 -> p324;
+  
+  subgraph cluster_p321 {
+    
+    color=white;
+    p321 [image="p321.png", imagescale=true, label=""];
+    p321_steps [label=<
+    Cleaning<br ALIGN = 'CENTER'/> 
+    &#8227; How is the missing data handled<br ALIGN = 'CENTER'/> 
+    &#8227; Clean attributes with corrupt data or variable noise<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p321; p321_steps;
+    
+  }
+  
+  subgraph cluster_p322 {
+    
+    color=white;
+    p322 [image="p322.png", imagescale=true, label=""];
+    p322_steps [label=<
+    Transformation<br ALIGN = 'CENTER'/> 
+    &#8227; Derive additional attributes from original<br ALIGN = 'CENTER'/> 
+    &#8227; Normalization<br ALIGN = 'CENTER'/>
+    &#8227; Attribute transformation<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p322; p322_steps;
+    
+  }
+  
+  subgraph cluster_p323 {
+    
+    color=white;
+    p323 [image="p323.png", imagescale=true, label=""];
+    p323_steps [label=<
+    Merging<br ALIGN = 'CENTER'/> 
+    &#9888; Revisit the Data Understanding phase<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    p2 [label="2 | Data \n Understading", 
+    shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+    
+    rank=same; p323; p323_steps; p2;
+    
+  }
+  
+  subgraph cluster_p324 {
+    
+    color=white;
+    p324 [image="p324.png", imagescale=true, label=""];
+    p324_steps [label=<
+    Formatting<br ALIGN = 'CENTER'/> 
+    &#8227; Rearrange attributes<br ALIGN = 'CENTER'/> 
+    &#8227; Randomly shuffle data<br ALIGN = 'CENTER'/>
+    &#8227; Remove constraints of modeling tool<br ALIGN = 'CENTER'/>
+    &#8227; Reshape<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p324; p324_steps;
+    
+  }
+
+}

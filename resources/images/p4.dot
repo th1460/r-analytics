@@ -1,0 +1,63 @@
+digraph g {
+ 
+  imagepath="resources/images";
+  rankdir=LR;
+  
+  graph [splines=ortho, dpi=80]
+  node [shape=box, color=none, fontsize=22]
+  edge [color="#fca103"];
+  p4 [label="4 | Modeling", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p3 [label="3 | Data \n Preparation", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p4 -> p41 -> p42 -> p43 -> p3;
+  
+  subgraph cluster_p41 {
+    
+    color=white;
+    p41 [image="p41.png", imagescale=true, label=""];
+    p41_steps [label=<
+    Model selection<br ALIGN = 'CENTER'/> 
+    &#8227; Modeling technique<br ALIGN = 'CENTER'/> 
+    &#8227; Constraints of modeling technique and tool<br ALIGN = 'CENTER'/>
+    &#8227; Ways in which contraints tie back to Data Preparation<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p41; p41_steps;
+    
+  }
+  
+  subgraph cluster_p42 {
+    
+    color=white;
+    p42 [image="p42.png", imagescale=true, label=""];
+    p42_steps [label=<
+    Generating a model Testing Plan<br ALIGN = 'CENTER'/> 
+    1. Dataset split<br ALIGN = 'CENTER'/> 
+    2. Model evaluation criterion<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p42; p42_steps;
+    
+  }
+  
+  subgraph cluster_p43 {
+    
+    color=white;
+    p43 [image="p43.png", imagescale=true, label=""];
+    p43_steps [label=<
+    Building the Model<br ALIGN = 'CENTER'/> 
+    &#8227; Train the model<br ALIGN = 'CENTER'/>
+    &#8227; Tweak the model for better performance<br ALIGN = 'CENTER'/>
+    &#8227; Build Multiple models with different parameter settings<br ALIGN = 'CENTER'/>
+    &#8227; Describe the trained models ans report on the findings<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p43; p43_steps;
+    
+  }
+
+
+}

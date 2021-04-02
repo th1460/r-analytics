@@ -1,0 +1,60 @@
+digraph g {
+ 
+  imagepath="resources/images";
+  rankdir=LR;
+  
+  graph [splines=ortho, dpi=120]
+  node [shape=box, color=none, fontsize=22]
+  edge [color="#fca103"];
+  p5 [label="5 | Evaluation", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p2 [label="2 | Business \n Understading", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p5 -> p51 -> p52 -> p53 -> p2;
+  
+  subgraph cluster_p51 {
+    
+    color=white;
+    p51 [image="p51.png", imagescale=true, label=""];
+    p51_steps [label=<
+    Evaluate the model<br ALIGN = 'CENTER'/> 
+    &#8227; Accuracy of the model<br ALIGN = 'CENTER'/> 
+    &#8227; Model generalization on unseen/unknown data<br ALIGN = 'CENTER'/>
+    &#8227; Evaluation of the model using the busness success criteria<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p51; p51_steps;
+    
+  }
+  
+  subgraph cluster_p52 {
+    
+    color=white;
+    p52 [image="p52.png", imagescale=true, label=""];
+    p52_steps [label=<
+    Review the project<br ALIGN = 'CENTER'/> 
+    &#8227; Was any important criteria overlooked?<br ALIGN = 'CENTER'/> 
+    &#8227; Model performance using the determined data<br ALIGN = 'CENTER'/>
+    &#8227; Is the data available for future training?<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p52; p52_steps;
+    
+  }
+  
+  subgraph cluster_p53 {
+    
+    color=white;
+    p53 [image="p53.png", imagescale=true, label=""];
+    p53_steps [label=<
+    Determine the next steps<br ALIGN = 'CENTER'/> 
+    >, fontsize=22];
+    
+    rank=same; p53; p53_steps;
+    
+  }
+
+
+}

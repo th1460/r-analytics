@@ -1,0 +1,77 @@
+digraph g {
+ 
+  imagepath="resources/images";
+  rankdir=LR;
+  
+  graph [splines=ortho, dpi=200]
+  node [shape=box, color=none, fontsize=22]
+  edge [color="#fca103"];
+  p1 [label="1 | Business \n Understading", 
+  shape=record, style="rounded,filled", color=white, fillcolor="#fca103", fontcolor=white, width=2, height=2];
+  
+  p1 -> p11 -> p12 -> p13 -> p14;
+  
+  subgraph cluster_p11 {
+    
+    color=white;
+    p11 [image="p11.png", imagescale=true, label=""];
+    p11_steps [label=<
+    Understanding Requirements<br ALIGN = 'CENTER'/> 
+    &#8227; Business question<br ALIGN = 'CENTER'/> 
+    &#8227; Critical features<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p11; p11_steps;
+    
+  }
+  
+  subgraph cluster_p12 {
+    
+    color=white;
+    p12 [image="p12.png", imagescale=true, label=""];
+    p12_steps [label=<
+    Analysing supporting information<br ALIGN = 'CENTER'/> 
+    &#8227; List resources/assumptions<br ALIGN = 'CENTER'/> 
+    &#8227; Analyse risks<br ALIGN = 'CENTER'/>
+    &#8227; Contigency plan<br ALIGN = 'CENTER'/>
+    &#8227; Costs/benefits<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p12; p12_steps;
+    
+  }
+  
+  subgraph cluster_p13 {
+    
+    color=white;
+    p13 [image="p13.png", imagescale=true, label=""];
+    p13_steps [label=<
+    Converting to a data mining problem<br ALIGN = 'CENTER'/> 
+    &#8227; Review Machine Learning question<br ALIGN = 'CENTER'/>
+    &#8227; Create technical objetive<br ALIGN = 'CENTER'/>
+    &#8227; Define the criteria for successful<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p13; p13_steps;
+    
+  }
+  
+  subgraph cluster_p14 {
+    
+    color=white;
+    p14 [image="p14.png", imagescale=true, label=""];
+    p14_steps [label=<
+    Preparing a preliminary plan<br ALIGN = 'CENTER'/> 
+    &#8227; Number/duration stages<br ALIGN = 'CENTER'/> 
+    &#8227; Dependencies<br ALIGN = 'CENTER'/>
+    &#8227; Risks<br ALIGN = 'CENTER'/>
+    &#8227; Goals<br ALIGN = 'CENTER'/>
+    &#8227; Evaluation methods<br ALIGN = 'CENTER'/>
+    &#8227; Tools and techniques<br ALIGN = 'CENTER'/>
+    >, fontsize=22];
+    
+    rank=same; p14; p14_steps;
+    
+  }
+
+}
