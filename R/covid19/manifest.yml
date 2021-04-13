@@ -1,0 +1,5 @@
+---
+applications:
+- name: dash-covid
+  memory: 256M
+  random-route: true

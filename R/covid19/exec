@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# get data
+wget -q https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv -O time_series_covid19_deaths_global.csv
+
+# run R script
+chmod +x read_update_data.R # turn executable
+./read_update_data.R # run script

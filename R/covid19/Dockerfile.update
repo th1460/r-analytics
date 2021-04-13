@@ -1,0 +1,7 @@
+FROM openwhisk/dockerskeleton
+RUN apk update && apk add openjdk8 openjdk8-jre R R-dev R-doc build-base tzdata
+RUN set -ex && apk --no-cache add sudo
+RUN echo "Set disable_coredump false" >> /etc/sudo.conf
+RUN sudo R CMD javareconf JAVA_HOME=/usr/lib/jvm/java-1.8-openjdk/jre && \
+sudo R -e "install.packages(c('jsonlite', 'rJava', 'RJDBC', 'dbplyr', 'tidyr', 'lubridate', 'curl'), repos = 'http://cran.rstudio.com/')"
+COPY jars /action/jars

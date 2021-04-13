@@ -38,7 +38,7 @@ background-size: cover
 
 <img src="resources/images/logo-ibm.png" width="150px"/>
 
-.large[Thiago Pires | 14 e 15 Abr 2021]
+.large[Thiago Pires | 14 e 15 Abr 2021 <br> [github.com/th1460/r-analytics](https://github.com/th1460/r-analytics)]
 
 ---
 layout: true
@@ -184,13 +184,13 @@ background-color: #fca103
 # CRISP-DM
 
 .pull-left[
-```{r echo=FALSE}
-DiagrammeR::grViz("resources/images/crisp-dm.dot")
-```
+>*Cross-industry standard process for data mining, known as CRISP-DM is an open standard process model that describes common approaches used by data mining experts. It is the most widely-used analytics model*
 ]
 
 .pull-right[
->*Cross-industry standard process for data mining, known as CRISP-DM is an open standard process model that describes common approaches used by data mining experts. It is the most widely-used analytics model*
+```{r echo=FALSE}
+DiagrammeR::grViz("resources/images/crisp-dm.dot")
+```
 ]
 
 ---
@@ -805,9 +805,87 @@ input <- list(Sex = "male", Pclass = "3rd")
   jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE)
 ```
 
+---
+class: left middle
+background-color: #ff7f7f
+
+# Covid 19 Analysis
+
+---
+# Covid 19 Analysis
+
+.center[
+```{r echo=FALSE, out.width="80%"}
+knitr::include_graphics("resources/images/covid19.png")
+```
+]
+
+---
+# Covid 19 Analysis
+
+### IBM Functions
+
+- `Dockerfile.update`
+- `exec`
+- `read_update_data.R`
+- `.Renviron`
+
+```
+# Docker build
+docker build -t th1460/update-covid -f Dockerfile.update .
+
+# Docker push
+docker push th1460/update-covid
+
+# Package files
+zip -r update_covid.zip exec read_update_data.R .Renviron
+
+# Create function
+ibmcloud fn action create update-covid19 update_covid.zip --docker th1460/update-covid --web true
+```
+
+---
+# Covid 19 Analysis
+
+### Cloud foundry
+
+- `Dockerfile.app`
+- `app.R`
+- `manifest.yml`
+
+```
+# Docker build
+docker build -t th1460/dash-covid -f Dockerfile.app .
+
+# Docker push
+docker push th1460/dash-covid
+
+# Deploy shiny
+ibmcloud cf push dash-covid --docker-image th1460/dash-covid -k 2G
+```
+
+---
+# Covid 19 Analysis
+
+### Dashboard
+
+.center[
+```{r echo=FALSE, out.width="70%"}
+knitr::include_graphics("resources/images/dash-covid.png")
+```
+]
 
 ---
 # References
 
 - https://www.aws.training/Details/eLearning?id=27200
 - https://the-modeling-agency.com/crisp-dm.pdf
+
+---
+class: inverse center middle
+background-color: #000
+
+th1460.github.io<br>
+github.com/th1460<br>
+linkedin.com/in/thop<br>
+slack: @thop
