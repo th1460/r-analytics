@@ -44,6 +44,7 @@ ui <- fluidPage(
     ),
     
     mainPanel(
+      uiOutput("summarybox"),
       tabsetPanel(id = "panel",
                   tabPanel("Plot", 
                            tags$h4("Distribuição do número médio de mortes"),
@@ -110,6 +111,13 @@ server <- function(input, output) {
                          opacity = 0.5)
     
   })
+  
+  output$summarybox <- 
+    renderUI({ 
+      fluidRow(
+        summaryBox::summaryBox("Última atualização", "999999", width = 3, icon = "fas fa-calendar", style = "info"),
+        summaryBox::summaryBox("Número de mortes", "999999", width = 3, icon = "fas fa-chart-bar", style = "danger")
+      )})
   
 }
 
