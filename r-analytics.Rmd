@@ -918,6 +918,17 @@ input <- list(Sex = "male", Pclass = "3rd")
 ```
 
 ---
+# Deployment (Titanic case)
+
+### IBM Cloud Functions
+
+.center[
+```{r echo=FALSE, out.width="70%"}
+knitr::include_graphics("resources/images/ibm_function.gif")
+```
+]
+
+---
 class: left middle
 background-color: #ff7f7f
 
