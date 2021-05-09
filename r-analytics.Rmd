@@ -32,13 +32,13 @@ class: inverse, left, middle
 background-image: url(resources/images/cover.gif)
 background-size: cover
 
-# R + Analytics
+# R + Analytics + Cloud
 
-### Análise de dados utilizando R
+### Analytics/Big Data Training
 
 <img src="resources/images/logo-ibm.png" width="150px"/>
 
-.large[Thiago Pires | 14 e 15 Abr 2021 <br> [github.com/th1460/r-analytics](https://github.com/th1460/r-analytics)]
+.large[Thiago Pires | 22 and 23 Apr 2021 <br> [github.com/th1460/r-analytics](https://github.com/th1460/r-analytics)]
 
 ---
 layout: true
@@ -53,15 +53,15 @@ background-color: #00b33c
 
 # Analytics
 
-> .large[*Decisões baseadas em fatos tornaram-se nossa força competitiva. Usar ou não usar analytics deixou de ser uma opção*]
+> .large[*Fact-based decisions have become our competitive strength. Using or not using analytics is no longer an option*]
 
 ---
 # Analytics
 
-> *Analytics é um campo abrangente e multidimensional que se utiliza de técnicas matemáticas, estatísticas, de modelagem preditiva e machine learning para encontrar padrões e conhecimento significativos em dados.*
+> *Analytics is a comprehensive and multidimensional field that uses mathematical techniques, statistics, predictive modeling and machine learning to find meaningful patterns and knowledge in data.*
 
 .pull-left[
-**Florence Nightingale** registrando e analisando dados de mortalidade na década de 1850. Ela apresentou os dados sobre os soldados feridos com as contagens de mortes por mês. Acabou constatando que a principal **incidência de mortes se devia a infecção hospitalar e não a ferimentos em batalha**, como muitos imaginavam.
+**Florence Nightingale** recording and analyzing mortality data in the 1850s. She presented data on wounded soldiers with death counts per month. He ended up realizing that the main **death rate was due to hospital infection and not battle injuries**, as many imagined.
 ]
 
 .pull-right[
@@ -70,12 +70,31 @@ knitr::include_graphics("resources/images/nightingale.jpeg")
 ```
 ]
 
-A análise de dados pode revelar correlações e padrões. Há menos necessidade de confiar em suposições ou na intuição. E isso pode ajudar a responder a perguntas como:
+---
+# Analytics
 
-- O que aconteceu?
-- Como ou por que aconteceu?
-- O que está acontecendo agora?
-- O que provavelmente irá acontecer em seguida?
+.pull-left[
+A concrete example of spatial analysis carried out in 1854 in the city of London, where the population was **suffering a serious cholera epidemic**, disease about which at the time the form of contamination was not known. In a situation where more than 500 deaths had already occurred, the **Dr. John Snow had an idea: put on the city map the location of the cholera patients and the water wells** (at that time, the main source of water for the city's inhabitants). The obtained map is shown in the figure below.
+
+*Dr. Snow realized that most cases were concentrated around the "Broad Street" well*
+]
+
+.pull-right[
+```{r out.width="60%", echo=FALSE}
+knitr::include_graphics("resources/images/snowmap.jpeg")
+```
+]
+
+
+---
+# Analytics
+
+Data analysis can reveal correlations and patterns. There is less need to rely on assumptions or intuition. And it can help answer questions like:
+
+- What happened?
+- How or why it happened?
+- What is happening now?
+- What will likely happen next?
 
 ---
 class: left middle
@@ -87,7 +106,7 @@ background-color: #9fa1f5
 # Linguagem R
 
 .pull-left[
-Desenvolvida por **Ross Ihaka** e por **Robert Gentleman** no departamento de Estatística da Universidade de Auckland, Nova Zelândia em 1993.
+Developed by **Ross Ihaka** and **Robert Gentleman** in the Statistics department at the University of Auckland, New Zealand in 1993.
 
 ### Exemplo
 
@@ -95,7 +114,7 @@ Desenvolvida por **Ross Ihaka** e por **Robert Gentleman** no departamento de Es
 1 + 2 + (3 * 4)
 f <- function(x) {x^2}
 x <- seq(-5, 5, 1); f(x)
-paste("Se x = 2, então f(2) =", f(2))
+paste("If x = 2, then f(2) =", f(2))
 ```
 ]
 
@@ -301,7 +320,7 @@ titanic %>% glimpse()
 
 ### Detect key associations
 
-```{r, associations1, eval=FALSE}
+```{r, associations0, eval=FALSE}
 require(ggplot2)
 theme_set(
   theme_minimal() + 
@@ -309,10 +328,33 @@ theme_set(
 )
 
 titanic %>% 
-  ggplot(aes(Sex, ..count../sum(..count..), 
+  ggplot(aes(Sex, ..count.., 
              group = Survived, 
              fill = as.factor(Survived))) + 
-  geom_bar(position="fill")
+  geom_bar()
+
+```
+]
+
+.pull-right[
+```{r, associations0, fig.height=5, eval=TRUE, echo=FALSE}
+```
+]
+
+---
+# Data Understanding (Titanic case)
+
+.pull-left[
+
+### Detect key associations
+
+```{r, associations1, eval=FALSE}
+
+titanic %>% 
+  ggplot(aes(Sex, ..count../sum(..count..), #<<
+             group = Survived, 
+             fill = as.factor(Survived))) + 
+  geom_bar(position="fill") #<<
 
 ```
 ]
@@ -385,6 +427,76 @@ titanic %>%
 .pull-right[
 ```{r, missing, eval=TRUE, echo=FALSE, highlight.output=c(9,14)}
 ```
+]
+
+---
+# Data Understanding (Titanic case)
+
+### Analyse distribution
+
+.pull-left[
+```{r fig.height=4}
+require(ggplot2)
+
+titanic %>% 
+  ggplot(aes(x = Fare)) +
+  geom_histogram() +
+  theme_minimal()
+
+```
+]
+
+.pull-right[
+```{r}
+titanic %>% 
+  summarise(
+    min(Fare),
+    max(Fare),
+    mean(Fare),
+    median(Fare),
+    e1071::skewness(Fare)
+  ) %>% 
+  tidyr::pivot_longer(everything(),
+                      names_to = "measure") %>% 
+  mutate(value = value %>% round(2))
+```
+]
+
+---
+# Data Understanding (Titanic case)
+
+### Symetric distribution
+
+.pull-left[
+```{r fig.height=4}
+set.seed(123)
+
+dataset <- tibble(x = rnorm(100, 30, 2))
+dataset %>% 
+  ggplot(aes(x)) +
+  geom_histogram(aes(y = ..density..)) +
+  geom_density(aes(x), color = "blue") +
+  theme_minimal()
+
+```
+]
+
+.pull-right[
+```{r}
+dataset %>% 
+  summarise(
+    min(x),
+    max(x),
+    mean(x),
+    median(x),
+    e1071::skewness(x)
+  ) %>% 
+  tidyr::pivot_longer(everything(),
+                      names_to = "measure") %>% 
+  mutate(value = value %>% round(2))
+
+```
+
 ]
 
 ---
@@ -752,8 +864,8 @@ RUN R -e "install.packages(c('jsonlite', 'tidypredict', 'yaml'), repos = 'http:/
 
 # load model
 loaded_model <- 
-  tidypredict::as_parsed_model(
-    yaml::read_yaml("my_model.yml"))
+tidypredict::as_parsed_model(
+yaml::read_yaml("my_model.yml"))
 
 # input
 input <- jsonlite::fromJSON("input.json", flatten = FALSE)
@@ -804,6 +916,17 @@ input <- list(Sex = "male", Pclass = "3rd")
   .[c("Sex", "Pclass", "fit")] %>% 
   jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE)
 ```
+
+---
+# Deployment (Titanic case)
+
+### IBM Cloud Functions
+
+.center[
+```{r echo=FALSE, out.width="70%"}
+knitr::include_graphics("resources/images/ibm_function.gif")
+```
+]
 
 ---
 class: left middle
