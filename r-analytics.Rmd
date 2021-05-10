@@ -943,6 +943,8 @@ knitr::include_graphics("resources/images/covid19.png")
 ```
 ]
 
+Repository: [github.com/th1460/covid19](https://github.com/th1460/covid19)
+
 ---
 # Covid 19 Analysis
 
@@ -1003,6 +1005,8 @@ knitr::include_graphics("resources/images/dash-covid.png")
 
 - https://www.aws.training/Details/eLearning?id=27200
 - https://the-modeling-agency.com/crisp-dm.pdf
+- https://github.com/th1460/shiny-example
+- https://github.com/th1460/r-actions-example
 
 ---
 class: inverse center middle
