@@ -1,0 +1,1313 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Analytics</title>
+    <meta charset="utf-8" />
+    <script src="libs/header-attrs-2.13/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/rladies-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+    <script src="libs/viz-1.8.2/viz.js"></script>
+    <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+    <script src="libs/grViz-binding-1.0.6.1/grViz.js"></script>
+    <script src="libs/jquery-1.12.4/jquery.min.js"></script>
+    <link href="libs/leaflet-1.3.1/leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-1.3.1/leaflet.js"></script>
+    <link href="libs/leafletfix-1.0.0/leafletfix.css" rel="stylesheet" />
+    <script src="libs/proj4-2.6.2/proj4.min.js"></script>
+    <script src="libs/Proj4Leaflet-1.0.1/proj4leaflet.js"></script>
+    <link href="libs/rstudio_leaflet-1.3.1/rstudio_leaflet.css" rel="stylesheet" />
+    <script src="libs/leaflet-binding-2.0.4.1/leaflet.js"></script>
+    <link rel="stylesheet" href="resources/css/progress.css" type="text/css" />
+    <link rel="stylesheet" href="resources/css/adds.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+
+
+
+
+class: inverse, left, middle
+
+background-image: url(resources/images/cover.gif)
+background-size: cover
+
+# R + Analytics + Cloud
+
+### Analytics/Big Data Training
+
+&lt;img src="resources/images/logo-ibm.png" width="150px"/&gt;
+
+.large[Thiago Pires | 22 and 23 Apr 2021 &lt;br&gt; [github.com/th1460/r-analytics](https://github.com/th1460/r-analytics)]
+
+---
+layout: true
+
+background-image: url(resources/images/logo-ibm.png)
+background-position: 97% 3%
+background-size: 7%
+
+---
+class: left middle
+background-color: #00b33c
+
+# Analytics
+
+&gt; .large[*Fact-based decisions have become our competitive strength. Using or not using analytics is no longer an option*]
+
+---
+# Analytics
+
+&gt; *Analytics is a comprehensive and multidimensional field that uses mathematical techniques, statistics, predictive modeling and machine learning to find meaningful patterns and knowledge in data.*
+
+.pull-left[
+**Florence Nightingale** recording and analyzing mortality data in the 1850s. She presented data on wounded soldiers with death counts per month. He ended up realizing that the main **death rate was due to hospital infection and not battle injuries**, as many imagined.
+]
+
+.pull-right[
+&lt;img src="resources/images/nightingale.jpeg" width="30%" /&gt;
+]
+
+---
+# Analytics
+
+.pull-left[
+A concrete example of spatial analysis carried out in 1854 in the city of London, where the population was **suffering a serious cholera epidemic**, disease about which at the time the form of contamination was not known. In a situation where more than 500 deaths had already occurred, the **Dr. John Snow had an idea: put on the city map the location of the cholera patients and the water wells** (at that time, the main source of water for the city's inhabitants). The obtained map is shown in the figure below.
+
+*Dr. Snow realized that most cases were concentrated around the "Broad Street" well*
+]
+
+.pull-right[
+&lt;img src="resources/images/snowmap.jpeg" width="60%" /&gt;
+]
+
+
+---
+# Analytics
+
+Data analysis can reveal correlations and patterns. There is less need to rely on assumptions or intuition. And it can help answer questions like:
+
+- What happened?
+- How or why it happened?
+- What is happening now?
+- What will likely happen next?
+
+---
+class: left middle
+background-color: #9fa1f5
+
+# R
+
+---
+# Linguagem R
+
+.pull-left[
+Developed by **Ross Ihaka** and **Robert Gentleman** in the Statistics department at the University of Auckland, New Zealand in 1993.
+
+### Exemplo
+
+
+```r
+1 + 2 + (3 * 4)
+```
+
+```
+[1] 15
+```
+
+```r
+f &lt;- function(x) {x^2}
+x &lt;- seq(-5, 5, 1); f(x)
+```
+
+```
+ [1] 25 16  9  4  1  0  1  4  9 16 25
+```
+
+```r
+paste("If x = 2, then f(2) =", f(2))
+```
+
+```
+[1] "If x = 2, then f(2) = 4"
+```
+]
+
+.pull-right[
+&lt;img src="resources/images/R.png" width="20%" /&gt;
+
+
+```r
+plot(x, f(x))
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-5-1.png" width="504" /&gt;
+]
+
+---
+# Base language `\(\times\)` Tidyverse
+
+.pull-left[
+### Base language
+
+```r
+# sum elements in a vector
+sum(c(10, 5, 8, 12, 2, 0))
+```
+
+```
+[1] 37
+```
+
+```r
+# data.frame
+df &lt;- data.frame(x = 1:3, y = letters[1:3])
+df$z &lt;- df$x^2
+
+# filter and select
+df[df$y == "b", c("x", "z")]
+```
+
+```
+  x z
+2 2 4
+```
+]
+
+.pull-right[
+### Tidyverse
+
+```r
+require(dplyr)
+# sum elements in a vector
+c(10, 5, 8, 12, 2, 0) %&gt;% sum
+```
+
+```
+[1] 37
+```
+
+```r
+# tibble
+df &lt;- tibble(x = 1:3, y = letters[1:3], z = x^2)
+
+# filter and select
+df %&gt;% filter(y == "b") %&gt;% select(x, z)
+```
+
+```
+# A tibble: 1 × 2
+      x     z
+  &lt;int&gt; &lt;dbl&gt;
+1     2     4
+```
+]
+
+---
+# Packages
+
+.pull-left[
+&lt;img src="resources/images/tidyverse.png" width="95%" /&gt;
+]
+
+.pull-right[
+&lt;img src="resources/images/dbplyr.png" width="22%" /&gt;&lt;img src="resources/images/tidymodels.svg" width="22%" /&gt;&lt;img src="resources/images/plumber.jpeg" width="22%" /&gt;&lt;img src="resources/images/lubridate.png" width="22%" /&gt;
+
+&lt;img src="resources/images/shiny.jpeg" width="22%" /&gt;&lt;img src="resources/images/rmarkdown.png" width="22%" /&gt;&lt;img src="resources/images/xaringan.png" width="22%" /&gt;&lt;img src="resources/images/renv.png" width="22%" /&gt;
+
+&lt;img src="resources/images/leaflet.png" width="40%" /&gt;&lt;img src="resources/images/plotly.png" width="40%" /&gt;
+]
+
+---
+class: left middle
+background-color: #fca103
+
+# CRISP-DM
+
+&gt; .large[*Cross Industry Standard Process for Data Mining*]
+
+---
+# CRISP-DM
+
+.pull-left[
+&gt;*Cross-industry standard process for data mining, known as CRISP-DM is an open standard process model that describes common approaches used by data mining experts. It is the most widely-used analytics model*
+]
+
+.pull-right[
+<div id="htmlwidget-98c0ae59363d2f7b5d9d" style="width:504px;height:504px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-98c0ae59363d2f7b5d9d">{"x":{"diagram":"digraph g {\n  \n  layout=\"circo\";\n  rankdir=LR;\n  tooltip=\"CRISP-DM\";\n  graph [splines=true]; \n  \n  node [shape=record, style=\"rounded,filled\", color=white, fillcolor=\"#fca103\", fontcolor=white];\n  edge [color=\"#fca103\"];\n  p1 [label=\"1 | Business \\n Understading\"];\n  p2 [label=\"2 | Data \\n Understading\"];\n  p3 [label=\"3 | Data \\n Preparation\"];\n  p4 [label=\"4 | Modeling\"];\n  p5 [label=\"5 | Evaluation\"];\n  p6 [label=\"6 | Deployment\"];\n  data [label=\"Data\", shape=cylinder, height=.8, width=.9];\n  \n  p1 -> p2 -> p3 -> p4 -> p5 -> p6;\n  p6 -> p1 [style=invis];\n  p2 -> p1;\n  p4 -> p3;\n  p5 -> p1;\n  \n}","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+]
+
+---
+# Business Understanding
+
+
+
+.center[
+&lt;img src="resources/images/p1.png" width="90%" /&gt;
+]
+
+#### Case Titanic dataset challenge
+
+This is a *part* (train data) from the dataset used in Kaggle Titanic challenge
+
+.pull-left[
+#### Business question:
+&gt;*What factors was associated with a person survive in the Titanic disaster?*
+]
+
+.pull-right[
+#### Features:
+- How to analyze the data? (e.g. R, Python, etc)
+- How prepare the data? (e.g. Pandas, dplyr, etc)
+- What were the passager types (e.g. Ages, Gender, Class, etc)
+]
+
+---
+# Titanic disaster
+
+.pull-left[
+
+```r
+require(leaflet)
+
+events &lt;- bind_rows(
+  tibble(location = "Southampton (10-04-1912)", 
+         lng = -1.4191, lat = 50.7894),
+  tibble(location = "Cherbourg (10-04-1912)", 
+         lng = -1.6109, lat = 49.6445),
+  tibble(location = "Queenstown (11-04-1912)", 
+         lng = -8.3211, lat = 51.8535),
+  tibble(location = "Naufrágio (14-04-1912)", 
+         lng = -49.9408, lat = 41.7258),
+  tibble(location = "New York", 
+         lng = -73.9655, lat = 40.6832))
+
+leaflet() %&gt;%  addTiles() %&gt;%
+  addCircleMarkers(data = events %&gt;% slice(1:3, 5), 
+                   label = ~location,
+                   color = c(rep("blue", 3), "green")) %&gt;% 
+  addMarkers(data = events %&gt;% slice(4), 
+             icon = list(
+               iconUrl = "resources/images/sinking-ship.jpeg", 
+               iconSize = c(50, 50)), 
+             label = ~location) %&gt;% 
+  addPolylines(data = events, ~lng, ~lat)
+```
+]
+
+.pull-right[
+<div id="htmlwidget-81350508582309ffdfa0" style="width:504px;height:360px;" class="leaflet html-widget"></div>
+<script type="application/json" data-for="htmlwidget-81350508582309ffdfa0">{"x":{"options":{"crs":{"crsClass":"L.CRS.EPSG3857","code":null,"proj4def":null,"projectedBounds":null,"options":{}}},"calls":[{"method":"addTiles","args":["//{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",null,null,{"minZoom":0,"maxZoom":18,"tileSize":256,"subdomains":"abc","errorTileUrl":"","tms":false,"noWrap":false,"zoomOffset":0,"zoomReverse":false,"opacity":1,"zIndex":1,"detectRetina":false,"attribution":"&copy; <a href=\"http://openstreetmap.org\">OpenStreetMap<\/a> contributors, <a href=\"http://creativecommons.org/licenses/by-sa/2.0/\">CC-BY-SA<\/a>"}]},{"method":"addCircleMarkers","args":[[50.7894,49.6445,51.8535,40.6832],[-1.4191,-1.6109,-8.3211,-73.9655],10,null,null,{"interactive":true,"className":"","stroke":true,"color":["blue","blue","blue","green"],"weight":5,"opacity":0.5,"fill":true,"fillColor":["blue","blue","blue","green"],"fillOpacity":0.2},null,null,null,null,["Southampton (10-04-1912)","Cherbourg (10-04-1912)","Queenstown (11-04-1912)","New York"],{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addMarkers","args":[41.7258,-49.9408,{"iconUrl":{"data":"data:image/jpeg;base64,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","index":0},"iconSize":[[50,50]]},null,null,{"interactive":true,"draggable":false,"keyboard":true,"title":"","alt":"","zIndexOffset":0,"opacity":1,"riseOnHover":false,"riseOffset":250},null,null,null,null,"Naufrágio (14-04-1912)",{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]},{"method":"addPolylines","args":[[[[{"lng":[-1.4191,-1.6109,-8.3211,-49.9408,-73.9655],"lat":[50.7894,49.6445,51.8535,41.7258,40.6832]}]]],null,null,{"interactive":true,"className":"","stroke":true,"color":"#03F","weight":5,"opacity":0.5,"fill":false,"fillColor":"#03F","fillOpacity":0.2,"smoothFactor":1,"noClip":false},null,null,null,{"interactive":false,"permanent":false,"direction":"auto","opacity":1,"offset":[0,0],"textsize":"10px","textOnly":false,"className":"","sticky":true},null]}],"limits":{"lat":[40.6832,51.8535],"lng":[-73.9655,-1.4191]}},"evals":[],"jsHooks":[]}</script>
+]
+
+---
+# Data Understanding
+
+
+
+.center[
+&lt;img src="resources/images/p2.png" width="90%" /&gt;
+]
+
+### Titanic case
+
+
+```r
+# Read data from Github
+dataset &lt;- "https://raw.githubusercontent.com/datasciencedojo/datasets/master/titanic.csv"
+```
+
+---
+# Data Understanding (Titanic case)
+
+.left-column[
+### Study the data dictionary and
+### Inspect the dataset
+]
+
+.right-column[
+
+```r
+titanic &lt;- readr::read_csv(dataset)
+titanic %&gt;% glimpse()
+```
+
+```
+Rows: 891
+Columns: 12
+$ PassengerId &lt;dbl&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17,…
+$ Survived    &lt;dbl&gt; 0, 1, 1, 1, 0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 1, 0, 1, 0, 1…
+$ Pclass      &lt;dbl&gt; 3, 1, 3, 1, 3, 3, 1, 3, 3, 2, 3, 1, 3, 3, 3, 2, 3, 2, 3, 3…
+$ Name        &lt;chr&gt; "Braund, Mr. Owen Harris", "Cumings, Mrs. John Bradley (Fl…
+$ Sex         &lt;chr&gt; "male", "female", "female", "female", "male", "male", "mal…
+$ Age         &lt;dbl&gt; 22, 38, 26, 35, 35, NA, 54, 2, 27, 14, 4, 58, 20, 39, 14, …
+$ SibSp       &lt;dbl&gt; 1, 1, 0, 1, 0, 0, 0, 3, 0, 1, 1, 0, 0, 1, 0, 0, 4, 0, 1, 0…
+$ Parch       &lt;dbl&gt; 0, 0, 0, 0, 0, 0, 0, 1, 2, 0, 1, 0, 0, 5, 0, 0, 1, 0, 0, 0…
+$ Ticket      &lt;chr&gt; "A/5 21171", "PC 17599", "STON/O2. 3101282", "113803", "37…
+$ Fare        &lt;dbl&gt; 7.2500, 71.2833, 7.9250, 53.1000, 8.0500, 8.4583, 51.8625,…
+$ Cabin       &lt;chr&gt; NA, "C85", NA, "C123", NA, NA, "E46", NA, NA, NA, "G6", "C…
+$ Embarked    &lt;chr&gt; "S", "C", "S", "S", "S", "Q", "S", "S", "S", "C", "S", "S"…
+```
+]
+
+---
+# Data Understanding (Titanic case)
+
+.pull-left[
+
+### Detect key associations
+
+
+```r
+require(ggplot2)
+theme_set(
+  theme_minimal() + 
+    theme(text = element_text(size = 18))
+)
+
+titanic %&gt;% 
+  ggplot(aes(Sex, ..count.., 
+             group = Survived, 
+             fill = as.factor(Survived))) + 
+  geom_bar()
+```
+]
+
+.pull-right[
+&lt;img src="index_files/figure-html/associations0-1.png" width="504" /&gt;
+]
+
+---
+# Data Understanding (Titanic case)
+
+.pull-left[
+
+### Detect key associations
+
+
+```r
+titanic %&gt;% 
+* ggplot(aes(Sex, ..count../sum(..count..),
+             group = Survived, 
+             fill = as.factor(Survived))) + 
+* geom_bar(position="fill")
+```
+]
+
+.pull-right[
+&lt;img src="index_files/figure-html/associations1-1.png" width="504" /&gt;
+]
+
+---
+# Data Understanding (Titanic case)
+
+.pull-left[
+
+### Detect key associations
+
+
+```r
+titanic %&gt;% 
+  ggplot(aes(Sex, ..count../sum(..count..), 
+             group = Survived, 
+             fill = as.factor(Survived))) + 
+  geom_bar(position="fill") +
+  facet_grid(~Pclass)
+```
+]
+
+.pull-right[
+&lt;img src="index_files/figure-html/associations2-1.png" width="648" /&gt;
+]
+
+---
+# Data Understanding (Titanic case)
+
+.pull-left[
+
+### Detect key associations
+
+
+```r
+titanic %&gt;% 
+  ggplot(aes(as.factor(Survived), Age)) + 
+  geom_boxplot()
+```
+]
+
+.pull-right[
+&lt;img src="index_files/figure-html/associations3-1.png" width="648" /&gt;
+]
+
+---
+# Data Understanding (Titanic case)
+
+.pull-left[
+### Identify missing data
+
+
+```r
+na_count &lt;- function(x) sum(is.na(x))
+
+titanic %&gt;% 
+  summarise(across(everything(), 
+                   list(na_count), 
+                   .names = "{.col}")) %&gt;% 
+  tidyr::pivot_longer(everything(), 
+                      values_to = "n_missing")
+```
+]
+.pull-right[
+
+```
+# A tibble: 12 × 2
+   name        n_missing
+   &lt;chr&gt;           &lt;int&gt;
+ 1 PassengerId         0
+ 2 Survived            0
+ 3 Pclass              0
+ 4 Name                0
+ 5 Sex                 0
+* 6 Age               177
+ 7 SibSp               0
+ 8 Parch               0
+ 9 Ticket              0
+10 Fare                0
+*11 Cabin             687
+12 Embarked            2
+```
+]
+
+---
+# Data Understanding (Titanic case)
+
+### Analyse distribution
+
+.pull-left[
+
+```r
+require(ggplot2)
+
+titanic %&gt;% 
+  ggplot(aes(x = Fare)) +
+  geom_histogram() +
+  theme_minimal()
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-19-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+```r
+titanic %&gt;% 
+  summarise(
+    min(Fare),
+    max(Fare),
+    mean(Fare),
+    median(Fare),
+    e1071::skewness(Fare)
+  ) %&gt;% 
+  tidyr::pivot_longer(everything(),
+                      names_to = "measure") %&gt;% 
+  mutate(value = value %&gt;% round(2))
+```
+
+```
+# A tibble: 5 × 2
+  measure                value
+  &lt;chr&gt;                  &lt;dbl&gt;
+1 min(Fare)               0   
+2 max(Fare)             512.  
+3 mean(Fare)             32.2 
+4 median(Fare)           14.4 
+5 e1071::skewness(Fare)   4.77
+```
+]
+
+---
+# Data Understanding (Titanic case)
+
+### Symetric distribution
+
+.pull-left[
+
+```r
+set.seed(123)
+
+dataset &lt;- tibble(x = rnorm(100, 30, 2))
+dataset %&gt;% 
+  ggplot(aes(x)) +
+  geom_histogram(aes(y = ..density..)) +
+  geom_density(aes(x), color = "blue") +
+  theme_minimal()
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-21-1.png" width="504" /&gt;
+]
+
+.pull-right[
+
+```r
+dataset %&gt;% 
+  summarise(
+    min(x),
+    max(x),
+    mean(x),
+    median(x),
+    e1071::skewness(x)
+  ) %&gt;% 
+  tidyr::pivot_longer(everything(),
+                      names_to = "measure") %&gt;% 
+  mutate(value = value %&gt;% round(2))
+```
+
+```
+# A tibble: 5 × 2
+  measure            value
+  &lt;chr&gt;              &lt;dbl&gt;
+1 min(x)             25.4 
+2 max(x)             34.4 
+3 mean(x)            30.2 
+4 median(x)          30.1 
+5 e1071::skewness(x)  0.06
+```
+
+]
+
+---
+# Data Preparation
+
+
+
+.center[
+&lt;img src="resources/images/p3.png" width="50%" /&gt;
+]
+
+.center[
+&lt;img src="resources/images/p32_14.png" width="100%" /&gt;
+]
+
+---
+# Data Preparation (Titanic case)
+
+.left-column[
+### Do we drop rows? Which?
+### How treat empty values?
+]
+
+.right-column[
+.pull-left[
+
+
+```
+# A tibble: 12 × 2
+   name        n_missing
+   &lt;chr&gt;           &lt;int&gt;
+ 1 PassengerId         0
+ 2 Survived            0
+ 3 Pclass              0
+ 4 Name                0
+ 5 Sex                 0
+* 6 Age               177
+ 7 SibSp               0
+ 8 Parch               0
+ 9 Ticket              0
+10 Fare                0
+*11 Cabin             687
+12 Embarked            2
+```
+
+]
+
+.pull-left[
+
+```r
+titanic$Name[4]
+```
+
+```
+[1] "Futrelle, Mrs. Jacques Heath (Lily May Peel)"
+```
+
+
+```r
+require(forcats)
+require(ggplot2)
+titanic %&gt;% 
+  mutate(
+    Title = Name %&gt;% 
+      stringr::str_extract(
+        "(?&lt;=\\,\\s)(.*)(?=\\.)") %&gt;% 
+      fct_lump(n = 4)) %&gt;% 
+  ggplot(aes(Title, Age)) + geom_boxplot()
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-27-1.png" width="504" /&gt;
+
+]
+]
+
+---
+# Data Preparation (Titanic case)
+
+### After fix empty ages
+
+.pull-left[
+
+```r
+titanic %&gt;% 
+  mutate(
+    Title = Name %&gt;% 
+      stringr::str_extract("(?&lt;=\\,\\s)(.*)(?=\\.)") %&gt;% 
+      fct_lump(n = 4)) %&gt;% 
+  group_by(Title) %&gt;% 
+  mutate(Age2 = ifelse(is.na(Age), median(Age, na.rm = TRUE), Age)) %&gt;% 
+  ggplot(aes(as.factor(Survived), Age2)) +
+  geom_boxplot()
+```
+]
+
+.pull-right[
+&lt;img src="index_files/figure-html/associations4-1.png" width="648" /&gt;
+]
+
+---
+# Data Preparation (Titanic case)
+
+.pull-left[
+### Fix types and labels
+
+
+```r
+require(magrittr)
+titanic %&lt;&gt;% 
+  mutate(Sex = as.factor(Sex),
+         Pclass = factor(Pclass,
+                         labels = c("1st", "2nd", "3rd")),
+         Survived = factor(Survived, 
+                           labels = c("No", "Yes")),
+         Embarked = fct_recode(Embarked, 
+                               "Cherbourg" = "C", 
+                               "Queenstown" = "Q",
+                               "Southampton" = "S"))
+titanic %&gt;% select(Sex, Survived, Embarked) %&gt;% 
+  print(n = 4)
+```
+
+```
+# A tibble: 891 × 3
+  Sex    Survived Embarked   
+  &lt;fct&gt;  &lt;fct&gt;    &lt;fct&gt;      
+1 male   No       Southampton
+2 female Yes      Cherbourg  
+3 female Yes      Southampton
+4 female Yes      Southampton
+# … with 887 more rows
+```
+]
+
+.pull-right[
+
+```r
+freq &lt;- function(data, x) {
+  table &lt;- data %&gt;% 
+    count({{x}}) %&gt;% 
+    mutate(`%` = (n/sum(n) * 100) %&gt;% round(1)) %&gt;% 
+    rename(Levels = 1, N = 2)
+  tibble(Variable = quo_name(quo({{x}}))) %&gt;% 
+    bind_cols(table)
+}
+
+c("Sex", "Survived", "Embarked", "Pclass") %&gt;% 
+  purrr::map_dfr(~ freq(titanic, !! sym(.x)))
+```
+
+```
+# A tibble: 11 × 4
+   Variable Levels          N   `%`
+   &lt;chr&gt;    &lt;fct&gt;       &lt;int&gt; &lt;dbl&gt;
+ 1 Sex      female        314  35.2
+ 2 Sex      male          577  64.8
+ 3 Survived No            549  61.6
+ 4 Survived Yes           342  38.4
+ 5 Embarked Cherbourg     168  18.9
+ 6 Embarked Queenstown     77   8.6
+ 7 Embarked Southampton   644  72.3
+ 8 Embarked &lt;NA&gt;            2   0.2
+ 9 Pclass   1st           216  24.2
+10 Pclass   2nd           184  20.7
+11 Pclass   3rd           491  55.1
+```
+]
+
+---
+# Modeling
+
+
+
+.center[
+&lt;img src="resources/images/p4.png" width="100%" /&gt;
+]
+
+### Titanic case
+
+&gt;*What factors was associated with a person survive in the Titanic disaster?*
+
+#### Model selection
+- Logistic regression, Decision Tree, etc
+- Features: Sex, Pclass, interaction between Sex and Pclass?
+- Split strategy
+
+---
+# Modeling (Titanic case)
+
+### Split data
+
+
+```r
+require(tidymodels)
+set.seed(555)
+
+# Put 3/4 of the data into the training set 
+data_split &lt;- initial_split(titanic, prop = 3/4)
+
+# Create data frames for the two sets:
+train_data &lt;- training(data_split)
+test_data  &lt;- testing(data_split)
+```
+
+---
+# Modeling (Titanic case)
+
+.pull-left[
+
+### `Survived ~ Sex + Pclass`
+
+
+```r
+lr_mod &lt;- 
+  logistic_reg() %&gt;% 
+  set_engine("glm")
+
+lr_fit1 &lt;- 
+  lr_mod %&gt;% 
+  fit(Survived ~ Sex + Pclass, data = train_data)
+
+lr_fit1 %&gt;% tidy()
+```
+
+```
+# A tibble: 4 × 5
+  term        estimate std.error statistic  p.value
+  &lt;chr&gt;          &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1 (Intercept)    2.31      0.257      9.00 2.28e-19
+2 Sexmale       -2.75      0.219    -12.6  2.89e-36
+3 Pclass2nd     -0.787     0.284     -2.77 5.65e- 3
+4 Pclass3rd     -1.98      0.253     -7.82 5.28e-15
+```
+]
+
+.pull-right[
+
+```r
+newdata &lt;- 
+  expand.grid(Pclass = c("1st", "2nd", "3rd"),
+              Sex = c("male", "female"))
+pihat &lt;- 
+  (lr_fit1 %&gt;% predict(newdata, type = "prob")) %$% 
+  .pred_Yes
+newdata %&gt;% mutate(Pihat = pihat) %&gt;% 
+  ggplot(aes(Sex, Pihat, 
+             group = Pclass, colour = Pclass)) + 
+  geom_line() + geom_point() +
+  labs(x = "Sex", y = expression(pi(Survived == yes)), 
+       colour = "Ticket Class") +
+  theme_minimal()
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-34-1.png" width="504" /&gt;
+]
+
+---
+# Modeling (Titanic case)
+
+.pull-left[
+### `Survived ~ Sex + Pclass + Sex:Pclass`
+
+
+```r
+lr_fit2 &lt;- 
+  lr_mod %&gt;% 
+  fit(Survived ~ Sex * Pclass, data = train_data)
+
+lr_fit2 %&gt;% tidy()
+```
+
+```
+# A tibble: 6 × 5
+  term              estimate std.error statistic       p.value
+  &lt;chr&gt;                &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;
+1 (Intercept)          3.09      0.590     5.24  0.000000163  
+2 Sexmale             -3.68      0.628    -5.85  0.00000000479
+3 Pclass2nd           -0.730     0.753    -0.970 0.332        
+4 Pclass3rd           -3.09      0.622    -4.97  0.000000670  
+5 Sexmale:Pclass2nd   -0.340     0.839    -0.405 0.686        
+6 Sexmale:Pclass3rd    1.63      0.686     2.38  0.0172       
+```
+]
+
+.pull-right[
+
+```r
+newdata &lt;- 
+  expand.grid(Pclass = c("1st", "2nd", "3rd"),
+              Sex = c("male", "female"))
+pihat &lt;- 
+  (lr_fit2 %&gt;% predict(newdata, type = "prob")) %$% 
+  .pred_Yes
+newdata %&gt;% mutate(Pihat = pihat) %&gt;% 
+  ggplot(aes(Sex, Pihat, 
+             group = Pclass, colour = Pclass)) + 
+  geom_line() + geom_point() +
+  labs(x = "Sex", y = expression(pi(Survived == yes)), 
+       colour = "Ticket Class") +
+  theme_minimal()
+```
+
+&lt;img src="index_files/figure-html/unnamed-chunk-36-1.png" width="504" /&gt;
+]
+
+---
+# Evaluation
+
+
+
+.center[
+&lt;img src="resources/images/p5.png" width="100%" /&gt;
+]
+
+### Mensures
+
+.pull-left[
+| Predicted\Actual |        Survived        |       No Survived      |
+|:----------------:|:----------------------:|:----------------------:|
+|     Survived     |  True Positive&lt;br&gt;(TP) | False Positive&lt;br&gt;(FP) |
+|    No Survived   | False Negative&lt;br&gt;(FN) |  True Negative&lt;br&gt;(TN) |
+]
+
+.pull-right[
+.tiny[
+`$$\text{Accuracy} = \frac{TP + TN}{TP + TN + FP + FN}$$`
+
+`$$\text{Precision} = \frac{TP}{TP + FP}$$`
+
+`$$\text{Recall} = \frac{TP}{TP + FN}$$`
+`$$F_{1-score} = \frac{2\times\text{precision}\times\text{recall}}{\text{precision} + \text{recall}}$$`
+]]
+
+---
+# Evaluation (Titanic case)
+
+
+```r
+measure &lt;- function(data) {
+  data %&gt;% accuracy(truth = Survived, .pred_class) %&gt;% 
+    bind_rows(data %&gt;% f_meas(truth = Survived, .pred_class))
+}
+```
+
+
+.pull-left[
+### `Survived ~ Sex + Pclass`
+
+
+```r
+predict(lr_fit1, test_data) %&gt;% 
+  bind_cols(predict(lr_fit1, 
+                    test_data, type = "prob")) %&gt;% 
+  bind_cols(test_data %&gt;% select(Survived)) %&gt;% 
+  measure()
+```
+
+```
+# A tibble: 2 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.762
+2 f_meas   binary         0.803
+```
+]
+
+.pull-right[
+### `Survived ~ Sex + Pclass + Sex:Pclass`
+
+
+```r
+predict(lr_fit2, test_data) %&gt;% 
+  bind_cols(predict(lr_fit2, 
+                    test_data, type = "prob")) %&gt;% 
+  bind_cols(test_data %&gt;% select(Survived)) %&gt;% 
+  measure()
+```
+
+```
+# A tibble: 2 × 3
+  .metric  .estimator .estimate
+  &lt;chr&gt;    &lt;chr&gt;          &lt;dbl&gt;
+1 accuracy binary         0.762
+2 f_meas   binary         0.803
+```
+]
+
+---
+# Deployment
+
+
+
+.center[
+&lt;img src="resources/images/p6.png" width="100%" /&gt;
+]
+
+---
+# Deployment (Titanic case)
+
+### Save model
+
+
+```r
+yaml::write_yaml(
+  tidypredict::parse_model(lr_fit1), 
+  "../R/my_model.yml"
+)
+```
+
+---
+# Deployment (Titanic case)
+
+### IBM Cloud Functions
+
+&gt; IBM Cloud™ Functions service is an event-driven compute platform, also referred to as Serverless computing, or as Function as a Service (FaaS), that runs code in response to events or direct invocations.
+
+### Configure
+
+#### `exec`
+
+```
+#!/bin/bash
+
+# run R script
+chmod +x script.R # turn executable
+echo "$@" &gt; input.json # set input
+./script.R # run script
+```
+
+#### `Dockerfile`
+
+```
+FROM openwhisk/dockerskeleton
+RUN apk update &amp;&amp; apk add R R-dev R-doc build-base
+RUN R -e "install.packages(c('jsonlite', 'tidypredict', 'yaml'), repos = 'http://cran.rstudio.com/')"
+```
+
+---
+# Deployment (Titanic case)
+
+### IBM Cloud Functions
+
+### Configure
+
+#### `script.R`
+
+```
+#!/usr/bin/env Rscript
+
+# load model
+loaded_model &lt;- 
+tidypredict::as_parsed_model(
+yaml::read_yaml("my_model.yml"))
+
+# input
+input &lt;- jsonlite::fromJSON("input.json", flatten = FALSE)
+
+# compute prediction
+pred &lt;- tidypredict::tidypredict_to_column(as.data.frame(input), loaded_model)
+
+# output
+jsonlite::stream_out(pred, verbose = FALSE)
+```
+
+---
+# Deployment (Titanic case)
+
+### IBM Cloud Functions
+
+### Deploy
+
+```
+# docker
+docker build th1460/titanic .
+docker push th1460/titanic
+
+# login
+ibmcloud login -sso
+ibmcloud target --cf
+
+# zip
+zip -r titanic.zip exec script.R my_model.yml
+
+# deploy
+ibmcloud fn action create titanic titanic.zip --docker th1460/titanic --web true
+```
+
+---
+# Deployment (Titanic case)
+
+### IBM Cloud Functions
+
+### Request
+
+
+```r
+input &lt;- list(Sex = "male", Pclass = "3rd")
+
+"https://us-south.functions.appdomain.cloud/api/v1/web/thiago.pires%40ibm.com_dev/default/titanic.json" %&gt;% 
+  httr::POST(., body = input, encode = "json") %&gt;% 
+  httr::content() %&gt;% 
+  .[c("Sex", "Pclass", "fit")] %&gt;% 
+  jsonlite::toJSON(pretty = TRUE, auto_unbox = TRUE)
+```
+
+```
+{
+  "Sex": "male",
+  "Pclass": "3rd",
+  "fit": 0.0979
+} 
+```
+
+---
+# Deployment (Titanic case)
+
+### IBM Cloud Functions
+
+.center[
+&lt;img src="resources/images/ibm_function.gif" width="70%" /&gt;
+]
+
+---
+class: left middle
+background-color: #ff7f7f
+
+# Covid 19 Analysis
+
+---
+# Covid 19 Analysis
+
+.center[
+&lt;img src="resources/images/covid19.png" width="80%" /&gt;
+]
+
+Repository: [github.com/th1460/covid19](https://github.com/th1460/covid19)
+
+---
+# Covid 19 Analysis
+
+### IBM Functions
+
+- `Dockerfile.update`
+- `exec`
+- `read_update_data.R`
+- `.Renviron`
+
+```
+# Docker build
+docker build -t th1460/update-covid -f Dockerfile.update .
+
+# Docker push
+docker push th1460/update-covid
+
+# Package files
+zip -r update_covid.zip exec read_update_data.R .Renviron
+
+# Create function
+ibmcloud fn action create update-covid19 update_covid.zip --docker th1460/update-covid --web true
+```
+
+---
+# Covid 19 Analysis
+
+### Cloud foundry
+
+- `Dockerfile.app`
+- `app.R`
+- `manifest.yml`
+
+```
+# Docker build
+docker build -t th1460/dash-covid -f Dockerfile.app .
+
+# Docker push
+docker push th1460/dash-covid
+
+# Deploy shiny
+ibmcloud cf push dash-covid --docker-image th1460/dash-covid -k 2G
+```
+
+---
+# Covid 19 Analysis
+
+### Dashboard
+
+.center[
+&lt;img src="resources/images/dash-covid.png" width="70%" /&gt;
+]
+
+---
+# References
+
+- https://www.aws.training/Details/eLearning?id=27200
+- https://the-modeling-agency.com/crisp-dm.pdf
+- https://github.com/th1460/shiny-example
+- https://github.com/th1460/r-actions-example
+
+---
+class: inverse center middle
+background-color: #000
+
+.pull-left[
+# Thank you!
+]
+
+.pull-right[
+[th1460.github.io](https://th1460.github.io/)&lt;br&gt;
+[github.com/th1460](https://github.com/)&lt;br&gt;
+[medium.com/@thopr](https://medium.com/@thopr)&lt;br&gt;
+[linkedin.com/in/thop](https://www.linkedin.com/in/thop)
+]
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false,
+"slideNumberFormat": "<div class=\"progress-bar-container\">\n  <div class=\"progress-bar\" style=\"width: calc(%current% / %total% * 100%);\">\n  </div>\n</div>"
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

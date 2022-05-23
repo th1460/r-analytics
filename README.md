@@ -6,5 +6,3 @@ In this training I will give an introduction to analytics, discuss its importanc
 - Overview about R language and main packages
 - Detail about a framework to run a Data Science project (CRISP-DM)
 - Examples with resources from IBM Cloud (DB2, IBM Cloud Functions, IBM Cloud Foundry) and R
-
-Slides in `.pdf`: https://github.com/th1460/r-analytics/blob/master/r-analytics.pdf
